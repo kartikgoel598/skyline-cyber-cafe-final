@@ -52,7 +52,7 @@ void menu1() {
             break;
         case 3:
             loginAdmin();
-            adminMenu();
+            
             break;
         case 4:
             cout << "Thank you for using Skyline Cyber Café!\n";

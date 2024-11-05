@@ -5,8 +5,8 @@
 #include <string>
 
 unordered_map<string, alluser> users;
-double printCostPerPage = 0.10;
-double scanCostPerPage = 0.05;
+double printCostPerPage = 0.20;
+double scanCostPerPage = 0.10;
 const string filename = "users.txt";
 int counter = 0;
 
