@@ -4,6 +4,7 @@
 #include <fstream>
 #include "menu.h"
 #include "user.h"
+#include <unordered_map>
 using namespace std;
 
 bool loginAdmin() {
@@ -70,8 +71,69 @@ void editUser() {
     string email;
     cout << "enter the email of the user you want to edit" << endl;
     getline(cin, email);
+    if (users.find(email) == users.end())
+    {
+        cout << "User with email \"" << email << "\" not found.\n";
+        return;
+    }
+    alluser& user = users[email]; 
+    int choice{};
+    cout << "\nEditing user: " << user.name << " (" << user.email << ")\n";
+    cout << "1) Name" << endl;
+    cout << "2) email" << endl;
+    cout << "3) password" << endl;
+    cout << "4) cancel" << endl;
+    cin >> choice;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    switch (choice) {
+    case 1: {
+        cout << "enter new name" << endl;
+        getline(cin, user.name);
+        cout << "name has been succesfully updated" << endl;
+           }
+    case 2: {
+        string newEmail;
+        cout << "enter new email :" << endl;
+        getline(cin, newEmail);
+        if (users.find(newEmail) != users.end() )
+        {
+            cout << "Email \"" << newEmail << "\" is already in use by another user.\n";
+            return;
+        }
+        users[newEmail] = user; 
+        users.erase(email);
+        cout << "Email updated successfully.\n";
+        break;
+    }
+    case 3: {
+        cout << "enter new password" << endl;
+        getline(cin, user.password);
+        cout << "password has been successfully updated";
+        break;
+    }
+    case 4: cout << "edit cancelled" << endl;
+        return;
+    default:
+        cout << "invalid choice" << endl;
+        return;
+    }
+    ofstream file("users.txt");
+    if (!file)
+    {
+        cout << "error loading the file";
+    }
+    for (const auto& entry : users) {
+        const alluser& user = entry.second;
+        file << user.name << endl
+            << user.email << endl
+            << user.password << endl
+            << user.userID << endl
+            << user.joiningDate << endl;
+    }
+    file.close();
+    cout << "User details updated successfully in the file." <<  endl;
+   
     
-
 }
 
 void adminMenu() {
@@ -89,7 +151,12 @@ void adminMenu() {
         break;
     case 2: deleteUser();
         break;
+    case 3: editUser();
+        break;
+    case 4:
+        break;
     default:
+        cout << "invalid option" << endl;
         break;
     }
 
