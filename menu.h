@@ -5,8 +5,15 @@
 #include "User.h"
 #include "Admin.h"
 
+
+
+
+
+
+
+
 void menu1();
-void usermenu(const alluser& user);
+void usermenu( alluser& user);
 
 #endif // MENU_H
 

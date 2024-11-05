@@ -1,13 +1,35 @@
-// Menu.cpp
-#include "Menu.h"
+#include "menu.h"
 #include <iostream>
-#include "admin.h"
+#include <vector>
+#include "user.h" // Assuming this includes functions like registerUser, loginUser, etc.
 
 using namespace std;
 
 void menu1() {
     int option{};
     while (true) {
+        std::cout << std::endl;
+        std::cout << std::endl;
+        std::cout << std::endl;
+
+        std::vector<std::string> titleArt = {
+            "$$$$$$\\  $$\\   $$\\ $$\\     $$\\ $$\\       $$$$$$\\ $$\\   $$\\ $$$$$$$$\\                           $$\\                                  $$$$$$\\   $$$$$$\\  $$$$$$$$\\ $$$$$$$$\\ ",
+            "$$  __$$\\ $$ | $$  |\\$$\\   $$  |$$ |      \\_$$  _|$$$\\  $$ |$$  _____|                          $$ |                                $$  __$$\\ $$  __$$\\ $$  _____|$$  _____|",
+            "$$ /  \\__|$$ |$$  /  \\$$\\ $$  / $$ |        $$ |  $$$$\\ $$ |$$ |             $$$$$$$\\ $$\\   $$\\ $$$$$$$\\   $$$$$$\\   $$$$$$\\        $$ /  \\__|$$ /  $$ |$$ |      $$ |      ",
+            "\\$$$$$$\\  $$$$$  /    \\$$$$  /  $$ |        $$ |  $$ $$\\$$ |$$$$$\\          $$  _____|$$ |  $$ |$$  __$$\\ $$  __$$\\ $$  __$$\\       $$ |      $$$$$$$$ |$$$$$\\    $$$$$\\    ",
+            " \\____$$\\ $$  $$<      \\$$  /   $$ |        $$ |  $$ \\$$$$ |$$  __|         $$ /      $$ |  $$ |$$ |  $$ |$$$$$$$$ |$$ |  \\__|      $$ |      $$  __$$ |$$  __|   $$  __|   ",
+            "$$\\   $$ |$$ |\\$$\\      $$ |    $$ |        $$ |  $$ |\\$$$ |$$ |            $$ |      $$ |  $$ |$$ |  $$ |$$   ____|$$ |            $$ |  $$\\ $$ |  $$ |$$ |      $$ |      ",
+            "\\$$$$$$  |$$ | \\$$\\     $$ |    $$$$$$$$\\ $$$$$$\\ $$ | \\$$ |$$$$$$$$\\       \\$$$$$$$\\ \\$$$$$$$ |$$$$$$$  |\\$$$$$$$\\ $$ |            \\$$$$$$  |$$ |  $$ |$$ |      $$$$$$$$\\ ",
+            " \\______/ \\__|  \\__|    \\__|    \\________|\\______|\\__|  \\__|\\________|       \\_______| \\____$$ |\\_______/  \\_______|\\__|             \\______/ \\__|  \\__|\\__|      \\________|",
+            "                                                                                      $$\\   $$ |                                                                             ",
+            "                                                                                      \\$$$$$$  |                                                                             ",
+            "                                                                                       \\______/                                                                              "
+        };
+
+        for (const auto& line : titleArt) {
+            std::cout << line << std::endl;
+        }
+
         cout << "Welcome to Skyline Cyber Café\n";
         cout << "1. Register\n";
         cout << "2. Login as User\n";
@@ -31,7 +53,6 @@ void menu1() {
         case 3:
             loginAdmin();
             adminMenu();
-            
             break;
         case 4:
             cout << "Thank you for using Skyline Cyber Café!\n";
@@ -43,10 +64,15 @@ void menu1() {
     }
 }
 
-void usermenu(const alluser& user) {
+void usermenu(alluser& user) {
+    const double printCostPerPage = 0.10;
+    const double scanCostPerPage = 0.05;
+
     cout << "Welcome " << user.name << " to Skyline Cyber Café\n";
-    char choice;
-    while (true) {
+    int choice;
+    bool options = true;
+
+    while (options) {
         cout << "\n1. Internet Browsing" << endl;
         cout << "2. Gaming" << endl;
         cout << "3. Print Pages" << endl;
@@ -55,7 +81,7 @@ void usermenu(const alluser& user) {
         cout << "6. Return to Main Menu" << endl;
         cout << "Enter your choice: ";
         cin >> choice;
-        cin.ignore();
+
         switch (choice) {
         case 1:
             cout << "Starting internet browsing session...\n";
@@ -69,6 +95,7 @@ void usermenu(const alluser& user) {
             cin >> pages;
             double cost = pages * printCostPerPage;
             cout << "Total cost for printing " << pages << " pages: NZD " << cost << endl;
+            user.totalPrintCost += cost;
             break;
         }
         case 4: {
@@ -77,6 +104,7 @@ void usermenu(const alluser& user) {
             cin >> pages;
             double cost = pages * scanCostPerPage;
             cout << "Total cost for scanning " << pages << " pages: NZD " << cost << endl;
+            user.totalScanCost += cost;
             break;
         }
         case 5: {
@@ -86,12 +114,13 @@ void usermenu(const alluser& user) {
             cout << "Total Amount Payable: NZD " << totalBill << endl;
             break;
         }
-        case 6: { menu1(); }
-
+        case 6:
+            cout << "Returning to main menu...\n";
+            options = false;
+            break;
         default:
             cout << "Invalid option, please try again.\n";
             break;
         }
     }
 }
-

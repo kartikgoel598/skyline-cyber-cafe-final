@@ -51,18 +51,37 @@ void saveUserToFile(const alluser& user) {
     }
 }
 
+
+
+
+
 void registerUser() {
     string name;
     string email;
     string password;
+    
     cout << "Enter your name: ";
     getline(cin, name);
-    cout << "Enter your email: ";
-    getline(cin, email);
-    if (email.find("@") == string::npos) {
-        cout << "Enter a valid email.\n";
-        return;
+    
+    while (true) {
+        cout << "Enter your email: ";
+        getline(cin, email);
+
+        // Basic email validation: contains "@" and "." and within a reasonable length
+        if (email.find('@') == string::npos || email.find('.') == string::npos ||
+            email.find('@') > email.rfind('.') || email.length() < 5 || email.length() > 50) {
+            cout << "Enter a valid email.\n";
+        }
+        else {
+            break;
+        }
     }
+
+         
+
+    
+    
+    
 
     cout << "Enter your password: ";
     getline(cin, password);
