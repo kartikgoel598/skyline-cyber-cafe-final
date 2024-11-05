@@ -9,5 +9,6 @@ void adminMenu();
 void viewAllUsers();
 void deleteUser();
 void editUser();
+void viewAllBill();
 
 #endif 

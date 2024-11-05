@@ -90,6 +90,8 @@ void editUser() {
         cout << "enter new name" << endl;
         getline(cin, user.name);
         cout << "name has been succesfully updated" << endl;
+        adminMenu();
+        break;
            }
     case 2: {
         string newEmail;
@@ -100,21 +102,26 @@ void editUser() {
             cout << "Email \"" << newEmail << "\" is already in use by another user.\n";
             return;
         }
+        user.email = newEmail;
         users[newEmail] = user; 
         users.erase(email);
         cout << "Email updated successfully.\n";
+        adminMenu();
         break;
     }
     case 3: {
         cout << "enter new password" << endl;
         getline(cin, user.password);
         cout << "password has been successfully updated";
+        adminMenu();
         break;
     }
     case 4: cout << "edit cancelled" << endl;
+        adminMenu();
         return;
     default:
         cout << "invalid choice" << endl;
+        adminMenu();
         return;
     }
     ofstream file("users.txt");
@@ -135,6 +142,24 @@ void editUser() {
    
     
 }
+void viewAllBill() {
+   
+    if (users.empty()) {
+        cout << "No users found.\n";
+        return;
+    }
+    cout << "\n--- View All User Bills ---\n";
+    for (const auto& userEntry : users) {
+        const alluser& user = userEntry.second;  
+        double totalBill = user.totalPrintCost + user.totalScanCost;
+        cout << "User: " << user.name << " (" << user.email << ")\n";
+        cout << "Total Print Cost: NZD " << user.totalPrintCost << endl;
+        cout << "Total Scan Cost: NZD " << user.totalScanCost << endl;
+        cout << "Total Amount Payable: NZD " << totalBill << endl;
+        cout << "-------------------------------\n";
+    }
+}
+
 
 void adminMenu() {
     int choice{};
@@ -153,7 +178,7 @@ void adminMenu() {
         break;
     case 3: editUser();
         break;
-    case 4:
+    case 4:viewAllBill();
         break;
     default:
         cout << "invalid option" << endl;
