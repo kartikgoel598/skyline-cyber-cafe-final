@@ -48,6 +48,7 @@ void viewAllUsers() {
         cout << "Name: " << i.second.name << endl;
         cout << "Email: " << i.second.email << endl;
         cout << "-------------------------------\n";
+        adminMenu();
     }
 }
 
@@ -79,6 +80,7 @@ void deleteUser() {
 
     file.close();
     cout << "User with email " << email << " has been deleted from the file.\n";
+    adminMenu();
 }
 
 void editUser() {
@@ -93,7 +95,7 @@ void editUser() {
         return;
     }
 
-    // Example structure for editing user information
+    
     alluser& user = it->second;
     cout << "Editing user: " << user.name << endl;
     // Here, you can add prompts to edit user details like name, password, etc.
@@ -104,8 +106,9 @@ void editUser() {
     if (!newName.empty()) {
         user.name = newName;
     }
+    adminMenu();
 
-    // Repeat for other fields you want to edit...
+    
 }
 
 void adminMenu() {
