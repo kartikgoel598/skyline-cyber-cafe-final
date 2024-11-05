@@ -39,4 +39,8 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="users.txt" />
+    <Text Include="admin.txt" />
+  </ItemGroup>
 </Project>

@@ -107,6 +107,8 @@ void startSession(const string& userID) {
     cout << "Session started for user: " << users[userID].name << "\n";
 }
 
+// **** //
+
 void endSession(const string& userID) {
     time_t endTime = time(nullptr);
     auto& session = users[userID].sessions.back();
