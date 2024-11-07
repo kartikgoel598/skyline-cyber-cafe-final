@@ -9,10 +9,10 @@ unordered_map<string, alluser> users;
 double printCostPerPage = 0.10;
 double scanCostPerPage = 0.05;
 const string filename = "users.txt";
-int counter = 0;
+int counter{};
 
-string generateUserId() {
-     return "user" + to_string(counter++);
+string generateUserId(const string& email) {
+     return "User" + to_string(counter++);
 }
 
 void loadUsersFromFile() {
@@ -58,7 +58,7 @@ void isValidEmail(const std::string& email) {
         std::cout << "Email \"" << email << "\" is valid.\n";
     }
     else {
-        std::cout << "Email \"" << email << "\" is invalid. Please press enter to try again.\n";
+        std::cout << "Email \"" << email << "\" is invalid. Please try again\n";
     }
 }
 bool isValidPassword(const std::string& password) {
@@ -70,11 +70,11 @@ bool isValidPassword(const std::string& password) {
     }
     else
     {
-        cout << "password must be 8 character long " << endl;
-       cout  << "password must have one upeer case letter" << endl;
-       cout  << "password must have one lower case letter" << endl;
-       cout  << "password must have one digit(1,2,3....)" << endl;
-         cout    << "password must have one special letter" << endl;
+       cout << "password must be 8 character long " << endl;
+       cout << "password must have one upeer case letter" << endl;
+       cout << "password must have one lower case letter" << endl;
+       cout << "password must have one digit(1,2,3....)" << endl;
+       cout << "password must have one special letter" << endl;
         return false;
     
     }
@@ -85,9 +85,10 @@ void registerUser() {
     string email;
     string password;
     cout << "Enter your name: ";
+    getline(cin, name);
     while (true)
     {
-        getline(cin, name);
+        //getline(cin, name);
         cout << "Enter your email: ";
         getline(cin, email);
         isValidEmail(email);
@@ -110,8 +111,9 @@ void registerUser() {
     while (true)
     {
         cout << "Enter your password: ";
+        
         getline(cin, password);
-        isValidPassword(password);
+        //isValidPassword(password);
         if (isValidPassword(password)) {
             break; 
         }
@@ -124,8 +126,11 @@ void registerUser() {
         cout << "User with this email already exists.\n";
         return;
     }
+    
+    /****/
+    string userID = generateUserId(email);
 
-    alluser newUser = { name, email, password, generateUserId(), time(nullptr) };
+    alluser newUser = { name, email, password, userID, time(nullptr) };
     users[emailAsUserID] = newUser;
     saveUserToFile(newUser);
     cout << "User registered successfully!\n";
