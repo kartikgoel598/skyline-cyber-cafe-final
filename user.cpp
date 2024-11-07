@@ -111,7 +111,6 @@ void registerUser() {
     {
         cout << "Enter your password: ";
         getline(cin, password);
-        isValidPassword(password);
         if (isValidPassword(password)) {
             break; 
         }
