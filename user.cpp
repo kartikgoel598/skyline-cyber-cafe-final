@@ -3,6 +3,7 @@
 #include <iomanip>
 #include <fstream>
 #include <string>
+#include <regex>
 
 unordered_map<string, alluser> users;
 double printCostPerPage = 0.10;
@@ -51,25 +52,72 @@ void saveUserToFile(const alluser& user) {
     }
 }
 
+void isValidEmail(const std::string& email) {
+    const std::regex pattern(R"((^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$))");
+    if (std::regex_match(email, pattern)) {
+        std::cout << "Email \"" << email << "\" is valid.\n";
+    }
+    else {
+        std::cout << "Email \"" << email << "\" is invalid. Please press enter to try again.\n";
+    }
+}
+bool isValidPassword(const std::string& password) {
+    const std::regex passwordPattern(R"((?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,})");
+    if (std::regex_match(password , passwordPattern))
+    {
+         std::cout << "Password \"" << password << "\" is valid.\n";
+         return true;
+    }
+    else
+    {
+        cout << "password must be 8 character long " << endl;
+       cout  << "password must have one upeer case letter" << endl;
+       cout  << "password must have one lower case letter" << endl;
+       cout  << "password must have one digit(1,2,3....)" << endl;
+         cout    << "password must have one special letter" << endl;
+        return false;
+    
+    }
+}
+
 void registerUser() {
     string name;
     string email;
     string password;
     cout << "Enter your name: ";
-    getline(cin, name);
-    cout << "Enter your email: ";
-    getline(cin, email);
-    if (email.find("@") == string::npos) {
-        cout << "Enter a valid email.\n";
-        return;
-    }
+    while (true)
+    {
+        getline(cin, name);
+        cout << "Enter your email: ";
+        getline(cin, email);
+        isValidEmail(email);
+        if (users.find(email) != users.end())
+        {
+            cout << "User with this email: \"" << email << "\" is already registered. Please type a different email.\n";
+        }
 
-    cout << "Enter your password: ";
-    getline(cin, password);
-    if (password.length() < 8) {
-        cout << "Password must be at least 8 characters long.\n";
-        return;
+        else if (!std::regex_match(email, std::regex(R"((^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$))"))) {
+                  continue; 
+        }
+
+        else {
+            break; 
+        }
     }
+   
+    
+    
+    while (true)
+    {
+        cout << "Enter your password: ";
+        getline(cin, password);
+        isValidPassword(password);
+        if (isValidPassword(password)) {
+            break; 
+        }
+    }
+    
+    
 
     string emailAsUserID = email; // Use email as a unique ID
     if (users.find(emailAsUserID) != users.end()) {

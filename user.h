@@ -7,6 +7,7 @@
 #include <string>
 #include <unordered_map>
 #include <ctime>
+#include <regex>
 
 using namespace std;
 
@@ -28,9 +29,10 @@ extern double scanCostPerPage;
 string generateUserId();
 void loadUsersFromFile();
 void saveUserToFile(const alluser& user);
+void isValidEmail(const std::string& email);
+bool isValidPassword(const std::string& password);
 void registerUser();
 bool loginUser();
 void startSession(const string& userID);
 void endSession(const string& userID);
-
 #endif 
