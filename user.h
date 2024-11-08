@@ -28,12 +28,12 @@ struct alluser {
     double totalScanCost = 0.0;
 };
 
-extern unordered_map<string, alluser> users;
-extern double printCostPerPage;
-extern double scanCostPerPage;
+unordered_map<string, alluser> users;
+const extern double printCostPerPage;
+const extern double scanCostPerPage;
 
 
-
+void saveBillHistory(const string& userID, double browsingCost, double gamingCost, double printingCost, double scanningCost, double totalCost);
 void calculateBill(const string& userID);
 
 string generateUserId(const std::string& email);

@@ -6,16 +6,32 @@
 #include <regex>
 #include <iostream>
 
+
+using namespace std;
+
+
 unordered_map<string, alluser> users;
 const string filename = "users.txt";
 int counter{};
-
+const double printCostPerPage = 0.30;
+const double scanCostPerPage = 0.20;
 
 
 const double browsingCostPerMinute = 0.50;
 const double gamingCostPerMinute = 0.50;
-const double printCostPerPage = 0.30;
-const double scanCostPerPage = 0.20;
+ 
+
+void saveBillHistory(const string& userID, double browsingCost, double gamingCost, double printingCost, double scanningCost, double totalCost) {
+    ofstream file("bills.txt", ios::app);
+    if (file) {
+        file << userID << " " << endl;
+        file << "browsing cost is:" << browsingCost << " " << "gaming cost is:" << gamingCost << " " << "printing cost is:" << printingCost << " " << "scanning cost is:" << scanningCost << " " << "total cost is:" << totalCost << "\n";
+        file.close();
+    }
+    else {
+        cout << "Error saving bill history.\n";
+    }
+}
 
 void calculateBill(const string& userID) {
     if (users.find(userID) == users.end())
@@ -54,17 +70,7 @@ void calculateBill(const string& userID) {
     saveBillHistory(userID, totalBrowsingCost, totalGamingCost, totalPrintingCost, totalScanningCost, totalCost);
 }
 
-void saveBillHistory(const string& userID, double browsingCost, double gamingCost, double printingCost, double scanningCost, double totalCost) {
-    ofstream file("bills.txt", ios::app);
-    if (file) {
-        file << userID << " " << endl;
-        file << "browsing cost is:" << browsingCost << " " << "gaming cost is:" << gamingCost << " " << "printing cost is:" << printingCost << " " << "scanning cost is:" << scanningCost << " "  << "total cost is:" << totalCost << "\n";
-        file.close();
-    }
-    else {
-        cout << "Error saving bill history.\n";
-    }
-}
+
 
 string generateUserId(const string& email) {
      return "User" + to_string(users.size() + 1);
