@@ -18,6 +18,12 @@ struct alluser {
     string userID;
     time_t joiningDate{};
     vector<pair<time_t, time_t>> sessions;
+    vector<pair<time_t, time_t>> browsingSessions;
+    vector<pair<time_t, time_t>> gamingSessions;
+    double totalBrowsingMinutes = 0;
+    double totalGamingMinutes = 0;
+    double totalPrintPages = 0;
+    double totalScanPages = 0;
     double totalPrintCost = 0;
     double totalScanCost = 0;
 };
@@ -26,7 +32,11 @@ extern unordered_map<string, alluser> users;
 extern double printCostPerPage;
 extern double scanCostPerPage;
 
-string generateUserId();
+
+
+void calculateBill(const string& userID);
+
+string generateUserId(const std::string& email);
 void loadUsersFromFile();
 void saveUserToFile(const alluser& user);
 void isValidEmail(const std::string& email);

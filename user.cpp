@@ -6,13 +6,67 @@
 #include <regex>
 
 unordered_map<string, alluser> users;
-double printCostPerPage = 0.10;
-double scanCostPerPage = 0.05;
 const string filename = "users.txt";
 int counter{};
 
+
+
+const double browsingCostPerMinute = 0.50;
+const double gamingCostPerMinute = 0.50;
+const double printCostPerPage = 0.30;
+const double scanCostPerPage = 0.20;
+
+void calculateBill(const string& userID) {
+    if (users.find(userID) == users.end())
+    {
+        cout << "userID not found" << endl;
+        return;
+    }
+    auto& user = users[userID];
+    double totalBrowsingCost = 0.0, totalGamingCost = 0.0;
+    double totalPrintingCost = 0.0, totalScanningCost = 0.0;
+    double totalCost = 0.0;
+        
+    for (const auto& session : user.browsingSessions) {
+        double duration = difftime(session.second, session.first) / 60; 
+        totalBrowsingCost += duration * browsingCostPerMinute;
+    }
+    for (const auto& session : user.gamingSessions) {
+        double duration = difftime(session.second, session.first) / 60; 
+        totalGamingCost += duration * gamingCostPerMinute;
+    }
+
+    totalPrintingCost = user.totalPrintPages * printCostPerPage;
+    totalScanningCost = user.totalScanPages * scanCostPerPage;
+    totalCost = totalBrowsingCost + totalGamingCost + totalPrintingCost + totalScanningCost;
+
+    //comment for josh and wilson generating receipt 
+    cout << fixed << setprecision(2);
+    cout << "\n--- Receipt ---\n";
+    cout << "Browsing: " << user.totalBrowsingMinutes << " min x NZD " << browsingCostPerMinute << " = NZD " << totalBrowsingCost << endl;
+    cout << "Gaming: " << user.totalGamingMinutes << " min x NZD " << gamingCostPerMinute << " = NZD " << totalGamingCost << endl;
+    cout << "Printing: " << user.totalPrintPages << " pages x NZD " << printCostPerPage << " = NZD " << totalPrintingCost << endl;
+    cout << "Scanning: " << user.totalScanPages << " pages x NZD " << scanCostPerPage << " = NZD " << totalScanningCost << endl;
+    cout << "Total Amount Payable: NZD " << totalCost << endl;
+
+    // Save bill history
+    saveBillHistory(userID, totalBrowsingCost, totalGamingCost, totalPrintingCost, totalScanningCost, totalCost);
+}
+
+void saveBillHistory(const string& userID, double browsingCost, double gamingCost, double printingCost, double scanningCost, double totalCost) {
+    ofstream file("bills.txt", ios::app);
+    if (file) {
+        file << userID << " " << endl;
+        file << "browsing cost is:" << browsingCost << " " << "gaming cost is:" << gamingCost << " " << "printing cost is:" << printingCost << " " << "scanning cost is:" << scanningCost << " "  << "total cost is:" << totalCost << "\n";
+        file.close();
+    }
+    else {
+        cout << "Error saving bill history.\n";
+    }
+}
+
 string generateUserId(const string& email) {
-     return "User" + to_string(counter++);
+     return "User" + to_string(users.size() + 1);
 }
 
 void loadUsersFromFile() {

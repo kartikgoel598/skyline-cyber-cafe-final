@@ -44,8 +44,7 @@ void menu1() {
 }
 
 void usermenu(const alluser& user) {
-    cout << "Welcome " << user.name << " to Skyline Cyber Café\n";
-    char choice;
+    int choice;
     while (true) {
         cout << "\n1. Internet Browsing" << endl;
         cout << "2. Gaming" << endl;
@@ -56,42 +55,52 @@ void usermenu(const alluser& user) {
         cout << "Enter your choice: ";
         cin >> choice;
         cin.ignore();
+
         switch (choice) {
         case 1:
-            cout << "Starting internet browsing session...\n";
+            cout << "Starting internet browsing session. Type 'exit' to end browsing session.\n";
+            startSession(user.userID, "browsing");
             break;
         case 2:
-            cout << "Starting gaming session...\n";
+            cout << "Starting gaming session. Type 'exit' to end gaming session.\n";
+            startSession(user.userID, "gaming");
             break;
         case 3: {
             int pages;
             cout << "Enter number of pages to print: ";
             cin >> pages;
-            double cost = pages * printCostPerPage;
-            cout << "Total cost for printing " << pages << " pages: NZD " << cost << endl;
+            user.totalPrintPages += pages;
             break;
         }
         case 4: {
             int pages;
             cout << "Enter number of pages to scan: ";
             cin >> pages;
-            double cost = pages * scanCostPerPage;
-            cout << "Total cost for scanning " << pages << " pages: NZD " << cost << endl;
+            user.totalScanPages += pages;
             break;
         }
-        case 5: {
-            double totalBill = user.totalPrintCost + user.totalScanCost;
-            cout << "Total Print Cost: NZD " << user.totalPrintCost << endl;
-            cout << "Total Scan Cost: NZD " << user.totalScanCost << endl;
-            cout << "Total Amount Payable: NZD " << totalBill << endl;
+        case 5:
+            calculateBill(user.userID);
             break;
-        }
-        case 6: { menu1(); }
-
+        case 6:
+            return;
         default:
             cout << "Invalid option, please try again.\n";
             break;
         }
     }
 }
+
+void startSession(const string& userID, const string& sessionType) {
+    time_t startTime = time(nullptr);
+
+    if (sessionType == "browsing") {
+        users[userID].browsingSessions.push_back({ startTime, 0 });
+    }
+    else if (sessionType == "gaming") {
+        users[userID].gamingSessions.push_back({ startTime, 0 });
+    }
+    cout << sessionType << " session started for user: " << users[userID].name << "\n";
+}
+
 
