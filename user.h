@@ -20,12 +20,12 @@ struct alluser {
     vector<pair<time_t, time_t>> sessions;
     vector<pair<time_t, time_t>> browsingSessions;
     vector<pair<time_t, time_t>> gamingSessions;
-    double totalBrowsingMinutes = 0;
-    double totalGamingMinutes = 0;
-    double totalPrintPages = 0;
-    double totalScanPages = 0;
-    double totalPrintCost = 0;
-    double totalScanCost = 0;
+    double totalBrowsingMinutes = 0.0;
+    double totalGamingMinutes = 0.0;
+    int totalPrintPages = 0;
+    int totalScanPages = 0;
+    double totalPrintCost = 0.0;
+    double totalScanCost = 0.0;
 };
 
 extern unordered_map<string, alluser> users;

@@ -43,7 +43,7 @@ void menu1() {
     }
 }
 
-void usermenu(const alluser& user) {
+void usermenu( alluser& user) {
     int choice;
     while (true) {
         cout << "\n1. Internet Browsing" << endl;
@@ -60,10 +60,12 @@ void usermenu(const alluser& user) {
         case 1:
             cout << "Starting internet browsing session. Type 'exit' to end browsing session.\n";
             startSession(user.userID, "browsing");
+            endSession(user.userID, "browsing"); 
             break;
         case 2:
             cout << "Starting gaming session. Type 'exit' to end gaming session.\n";
             startSession(user.userID, "gaming");
+            endSession(user.userID, "gaming"); 
             break;
         case 3: {
             int pages;
@@ -72,6 +74,7 @@ void usermenu(const alluser& user) {
             user.totalPrintPages += pages;
             break;
         }
+        
         case 4: {
             int pages;
             cout << "Enter number of pages to scan: ";
@@ -101,6 +104,19 @@ void startSession(const string& userID, const string& sessionType) {
         users[userID].gamingSessions.push_back({ startTime, 0 });
     }
     cout << sessionType << " session started for user: " << users[userID].name << "\n";
+}
+
+
+void endSession(const string& userID, const string& sessionType) {
+    time_t endTime = time(nullptr);
+    if (sessionType == "browsing" && !users[userID].browsingSessions.empty()) {
+        users[userID].browsingSessions.back().second = endTime;
+    }
+    else if (sessionType == "gaming" && !users[userID].gamingSessions.empty()) {
+        users[userID].gamingSessions.back().second = endTime;
+    }
+    cout << sessionType << " session ended for user: " << users[userID].name << "\n";
+    cout << "Session duration: " << difftime(endTime, users[userID].browsingSessions.back().first) / 60 << " minutes.\n";
 }
 
 

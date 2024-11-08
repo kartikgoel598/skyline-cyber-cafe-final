@@ -4,6 +4,7 @@
 #include <fstream>
 #include <string>
 #include <regex>
+#include <iostream>
 
 unordered_map<string, alluser> users;
 const string filename = "users.txt";
