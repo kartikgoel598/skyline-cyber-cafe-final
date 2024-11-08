@@ -10,12 +10,18 @@
 
 using namespace std;
 
+struct Session {
+    time_t startTime;
+    time_t endTime;
+};
+
+
 struct alluser {
     string name;
     string email;
     string password;
     string userID;
-    time_t joiningDate{};
+    string joiningDate{};
     vector<pair<time_t, time_t>> sessions;
     double totalPrintCost = 0;
     double totalScanCost = 0;

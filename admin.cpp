@@ -1,9 +1,13 @@
 // Admin.cpp
+#define _CRT_SECURE_NO_WARNINGS
+
+
 #include "Admin.h"
 #include <iostream>
 #include <fstream>
 #include "menu.h"
 #include "user.h"
+#include <iomanip>
 using namespace std;
 
 bool loginAdmin() {
@@ -32,14 +36,27 @@ bool loginAdmin() {
     cout << "Invalid admin email or password.\n";
     return false;
 }
+
 void viewAllUsers() {
     for (const auto& i : users) {
+        // Print user details
         cout << "User ID: " << i.second.userID << endl;
         cout << "Name: " << i.second.name << endl;
         cout << "Email: " << i.second.email << endl;
+
+        // Print formatted Join Date
+        cout << "Join Date: " << i.second.joiningDate << endl; 
+
+        // Print other details (you can also display total print costs, scan costs, etc.)
+        cout << "Total Print Cost: NZD " << fixed << setprecision(2) << i.second.totalPrintCost << endl;
+        cout << "Total Scan Cost: NZD " << fixed << setprecision(2) << i.second.totalScanCost << endl;
+        cout << "Total Sessions: " << i.second.sessions.size() << endl;
+
         cout << "-------------------------------\n";
     }
+
 }
+
 void deleteUser() {
     
     string email{};

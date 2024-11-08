@@ -1,8 +1,11 @@
 // User.cpp
+#define _CRT_SECURE_NO_WARNINGS
+
 #include "User.h"
 #include <iomanip>
 #include <fstream>
 #include <string>
+
 
 unordered_map<string, alluser> users;
 double printCostPerPage = 0.10;
@@ -11,8 +14,17 @@ const string filename = "users.txt";
 int counter = 0;
 
 string generateUserId() {
-     return "user" + to_string(counter++);
+     return "user" + to_string(users.size() + 1);
 }
+
+// **** //
+string formatJoiningDate(time_t date) {
+    char buffer[80];
+    struct tm* timeinfo = localtime(&date);
+    strftime(buffer, sizeof(buffer), "%A, %d %B %Y  %I:%M:%S %p", timeinfo);  // Format as desired
+    return string(buffer);
+}
+
 
 void loadUsersFromFile() {
     ifstream file(filename);
@@ -21,15 +33,16 @@ void loadUsersFromFile() {
         return;
     }
 
-    string name, email, password,userID;
+    string name, email, password,userID, joiningDateStr;
     time_t joiningDate;
 
     while (file >> ws && getline(file, name) &&
         getline(file, email) &&
         getline(file, password) &&
         getline(file, userID) &&
-        (file >> joiningDate)) {
-        alluser user = { name, email, password, userID, joiningDate };
+        //****//
+        getline(file, joiningDateStr)){
+        alluser user = { name, email, password, userID, joiningDateStr };
         users[email] = user;
         file.ignore();
     }
@@ -77,11 +90,16 @@ void registerUser() {
         return;
     }
 
-    alluser newUser = { name, email, password, generateUserId(), time(nullptr) };
+    time_t currentTime = time(nullptr);
+    string formattedJoiningDate = formatJoiningDate(currentTime);  //
+
+    alluser newUser = { name, email, password, generateUserId(), formattedJoiningDate};
     users[emailAsUserID] = newUser;
     saveUserToFile(newUser);
     cout << "User registered successfully!\n";
+    cout << "User joined on: " << formatJoiningDate(currentTime) << endl;  // Display formatted join date
 }
+
 
 bool loginUser() {
     string email, password;
@@ -94,7 +112,8 @@ bool loginUser() {
     
     if (it != users.end() && it->second.password == password) {
         cout << "Login successful!\n";
-       
+        /********/
+        cout << "User joined on: " << it->second.joiningDate << endl;  // Display the stored formatted join date
         return true;
     }
     cout << "Invalid email or password.\n";
@@ -107,7 +126,6 @@ void startSession(const string& userID) {
     cout << "Session started for user: " << users[userID].name << "\n";
 }
 
-// **** //
 
 void endSession(const string& userID) {
     time_t endTime = time(nullptr);
