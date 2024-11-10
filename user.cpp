@@ -125,6 +125,7 @@ void endSession(const string& userID) {
     double scanCost = scanPages * scanCostPerPage;
     users[userID].totalPrintCost += printCost;
     users[userID].totalScanCost += scanCost;
+    user[]
 
     cout << fixed << setprecision(2);
     cout << "Total Print Cost: NZD " << printCost << "\n";
