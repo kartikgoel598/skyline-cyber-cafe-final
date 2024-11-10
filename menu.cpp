@@ -5,6 +5,42 @@
 
 using namespace std;
 
+
+void startBrowsing(const string& userID) {
+
+    time_t startTime = time(nullptr);
+    users[userID].sessions.push_back({ startTime, 0 });
+    cout << "Browsing session started for user: " << users[userID].name << "\n";
+
+
+
+}
+double Tcost;
+
+void endBrowsing(const string& userID) {
+
+    time_t endTime = time(nullptr);
+    auto& session = users[userID].sessions.back();
+    session.second = endTime;
+
+    double duration = difftime(endTime, session.first) / 60;
+    cout << "Session ended for user: " << users[userID].name << ", Duration: " << duration << " minutes\n";
+
+    Tcost = duration * .50;
+
+    cout << "Total Browsing Cost: " << Tcost << endl; 
+
+
+}
+
+
+
+
+
+
+
+
+
 void menu1() {
     int option{};
     while (true) {
@@ -69,6 +105,8 @@ void usermenu(alluser& user) {
     const double scanCostPerPage = 0.05;
 
     cout << "Welcome " << user.name << " to Skyline Cyber Café\n";
+    
+    string bname = user.name; 
     int choice;
     bool options = true;
 
@@ -85,6 +123,8 @@ void usermenu(alluser& user) {
         switch (choice) {
         case 1:
             cout << "Starting internet browsing session...\n";
+            startBrowsing(bname);
+            
             break;
         case 2:
             cout << "Starting gaming session...\n";
@@ -108,7 +148,10 @@ void usermenu(alluser& user) {
             break;
         }
         case 5: {
-            double totalBill = user.totalPrintCost + user.totalScanCost;
+            
+            endBrowsing(bname);
+            
+            double totalBill = user.totalPrintCost + user.totalScanCost + Tcost;
             cout << "Total Print Cost: NZD " << user.totalPrintCost << endl;
             cout << "Total Scan Cost: NZD " << user.totalScanCost << endl;
             cout << "Total Amount Payable: NZD " << totalBill << endl;

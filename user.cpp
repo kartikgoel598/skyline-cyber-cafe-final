@@ -120,6 +120,12 @@ bool loginUser() {
     return false;
 }
 
+
+
+
+
+
+
 void startSession(const string& userID) {
     time_t startTime = time(nullptr);
     users[userID].sessions.push_back({ startTime, 0 });
