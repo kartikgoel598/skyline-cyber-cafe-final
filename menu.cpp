@@ -1,7 +1,8 @@
 #include "menu.h"
 #include <iostream>
 #include <vector>
-#include "user.h" // Assuming this includes functions like registerUser, loginUser, etc.
+#include "user.h"
+#include "bill.h"
 
 using namespace std;
 
@@ -100,6 +101,7 @@ void menu1() {
     }
 }
 
+double totalBill;
 void usermenu(alluser& user) {
     const double printCostPerPage = 0.10;
     const double scanCostPerPage = 0.05;
@@ -151,7 +153,13 @@ void usermenu(alluser& user) {
             
             endBrowsing(bname);
             
-            double totalBill = user.totalPrintCost + user.totalScanCost + Tcost;
+            
+            totalBill = user.totalPrintCost + user.totalScanCost + Tcost;
+            
+            Billdoc(user.email, user.totalPrintCost, user.totalScanCost, Tcost, totalBill); 
+
+            
+            
             cout << "Total Print Cost: NZD " << user.totalPrintCost << endl;
             cout << "Total Scan Cost: NZD " << user.totalScanCost << endl;
             cout << "Total Amount Payable: NZD " << totalBill << endl;

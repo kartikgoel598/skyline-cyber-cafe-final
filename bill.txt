@@ -1,0 +1,7 @@
+
+Account: test1@test.com
+Print: $3.5
+Scan: $1.65
+Internet: $0.0416667
+
+Total Outstanding: $5.19167

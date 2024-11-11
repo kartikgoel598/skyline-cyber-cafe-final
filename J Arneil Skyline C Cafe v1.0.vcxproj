@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="bill.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="admin.cpp" />
     <ClCompile Include="user.cpp" />
@@ -134,8 +135,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="admin.h" />
+    <ClInclude Include="bill.h" />
     <ClInclude Include="menu.h" />
     <ClInclude Include="user.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="bill.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
